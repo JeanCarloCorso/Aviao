@@ -50,8 +50,9 @@ def perform_fitness(cs0, cs1, cs2, cs3, cs4, cs5, cs6, cs7, cs8, cs9, cs10, cs11
 	c=cs4+cs5+cs6+cs7
 	t=cs8+cs9+cs10+cs11
 	h7 = np.abs(f / total-10/34)+np.abs(c / total-16/34)+np.abs(t / total-8/34)
+	h8 = np.maximum(0,(((cs0 + cs1 + cs2 + cs3 + cs4 + cs5 + cs6 + cs7 + cs8 + cs9 + cs10 + cs11) / 1000) - 33.5) / 33.5)
 	
-	fit = fit - (h1+h2+h3+h4+h5+h6+h7)/7
+	fit = fit - (h1+h2+h3+h4+h5+h6+h7+h8)/8
 	
 	return fit
 	
@@ -85,7 +86,9 @@ def solution_evaluation(cs0, cs1, cs2, cs3, cs4, cs5, cs6, cs7, cs8, cs9, cs10, 
 	print("\n   Compartimento3 KG\n      * C1= ",cs8, "\n      * C2= ",cs9
 	, "\n      * C3= ",cs10, "\n      * C4= ",cs11)
 	print("Total Compartimneto 3 em Ton :",(cs8+cs9+cs10+cs11)/1000)
+	print("\n TOTAL CARGA EM TON: ",(cs0+cs1+cs2+cs3+cs4+cs5+cs6+cs7+cs8+cs9+cs10+cs11)/1000)
 def main():
+	inicio = time()
 	rand = Random()
 	rand.seed(int(time()))
 
@@ -97,7 +100,7 @@ def main():
 
 	ea.terminator = terminators.generation_termination
 	
-	ea.observer = [ec.observers.stats_observer, ec.observers.file_observer]
+	#ea.observer = [ec.observers.stats_observer, ec.observers.file_observer]
 
 	final_pop = ea.evolve(generator=generate_,
 					  evaluator=evaluate_,
@@ -132,6 +135,8 @@ def main():
 	final_pop[0].candidate[8], final_pop[0].candidate[9],
 	final_pop[0].candidate[10], final_pop[0].candidate[11]
 	)
+	fim = time()
 	#solution_evaluation(final_pop[0].candidate[0], final_pop[0].candidate[1])
+	print("\nTempo de processamento: ",fim - inicio)
 
 main() 
